@@ -1,5 +1,3 @@
-package main
-
 /*
 	Program that acts similar to cat()
 	except instead of using stdout it creates
@@ -8,6 +6,8 @@ package main
 	Uses an environment variable GITHUB_API to
 	determine the users api key.
 */
+
+package main
 
 import (
 	"bytes"
