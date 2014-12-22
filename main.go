@@ -59,7 +59,7 @@ func FromFiles(gistFiles GistFiles, files []string) {
 }
 
 func main() {
-	var public = flag.Bool("public", false, "whether to make the gist public, defaults to false")
+	var public = flag.Bool("public", false, "makes the gist public")
 	flag.Parse()
 
 	apiToken := os.Getenv(tokenEnv)
