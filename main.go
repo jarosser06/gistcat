@@ -11,6 +11,7 @@ package main
 
 import (
 	"bytes"
+	"flag"
 	"fmt"
 	"io"
 	"os"
@@ -38,10 +39,10 @@ func FromStdin(gistFiles GistFiles) {
 }
 
 // Cats file content together into a gistFile
-func FromFiles(gistFiles GistFiles) {
+func FromFiles(gistFiles GistFiles, files []string) {
 	var stdOutBuff bytes.Buffer
 
-	for _, fileName := range os.Args[1:] {
+	for _, fileName := range files {
 		file, err := os.Open(fileName)
 		if err != nil {
 			fmt.Printf("Error opening file %s: %v", fileName, err)
@@ -58,6 +59,8 @@ func FromFiles(gistFiles GistFiles) {
 }
 
 func main() {
+	var public = flag.Bool("public", false, "whether to make the gist public, defaults to false")
+	flag.Parse()
 
 	apiToken := os.Getenv(tokenEnv)
 	if apiToken == "" {
@@ -70,17 +73,17 @@ func main() {
 	}
 	client := github.NewClient(t.Client())
 
+	args := flag.Args()
 	gistFiles := make(GistFiles)
-	if len(os.Args) == 1 {
+	if len(args) == 0 {
 		FromStdin(gistFiles)
 	} else {
-		FromFiles(gistFiles)
+		FromFiles(gistFiles, args)
 	}
 
-	public := false
 	gist := github.Gist{
 		Files:  gistFiles,
-		Public: &public,
+		Public: public,
 	}
 
 	g, _, err := client.Gists.Create(&gist)
