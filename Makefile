@@ -1,7 +1,7 @@
 export GOPATH := ${PWD}/.gopath
 export INSTALLPRE := /usr/local
 
-all: deps build
+all: deps build install
 
 build:
 		@echo "Building binaries..."
