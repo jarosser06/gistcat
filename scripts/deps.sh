@@ -7,6 +7,8 @@ if [ $? -eq 0 ]; then
   mkdir -p $GOPATH
 
   gpm install
+  exit 0
 else
   echo "gpm not found"
+  exit 0
 fi
