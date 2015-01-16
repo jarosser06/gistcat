@@ -11,6 +11,6 @@ Set environment variable $GITHUB_API to your github api key with 'gist' access
 
 ###Usage
 
-Run 'echo "foo" | gistcat'
+Run 'echo "foo" | gistcat' or 'gistcat filename.txt'
 
 Profit
