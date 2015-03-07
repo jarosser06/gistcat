@@ -1,18 +1,8 @@
-export GOPATH := ${PWD}/.gopath
-export INSTALLPRE := /usr/local
-
-all: deps build
+all: build
 
 build:
-		@echo "Building binaries..."
-		@scripts/make.sh build
-
-package: deps build
-		@echo "Packaging..."
-		scripts/make.sh package
-
-deps:
-		scripts/deps.sh
+		@echo "Building..."
+		scripts/make.sh build
 
 test:
 		@echo "Running tests..."
@@ -20,9 +10,8 @@ test:
 
 clean:
 		@echo "Cleaning up..."
-		rm -rf bin
-		rm -rf packages
-		rm -rf .gopath
+		@rm -rf bin
+		@rm -rf packages
 
 install:
 		@echo "Installing to ${INSTALLPRE}/bin"
