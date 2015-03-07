@@ -1,3 +1,5 @@
+export INSTALLPRE := /usr/local
+
 all: build
 
 build:
