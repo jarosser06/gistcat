@@ -26,6 +26,7 @@ case $1 in
 "build")
   if [ godep_installed ]; then
     mkdir -p bin
+    GOPATH=`godep path`:${GOPATH}
     go build -o bin/gistcat ./main.go
   fi
   ;;
