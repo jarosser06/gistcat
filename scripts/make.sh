@@ -13,8 +13,6 @@ function godep_installed {
   fi
 }
 
-echo $INSTALLPRE
-
 ## Make sure godep is installed
 case $1 in
 "test")
