@@ -25,7 +25,7 @@ const tokenEnv = "GITHUB_API"
 type GistFiles map[github.GistFilename]github.GistFile
 
 // Create GistFiles from stdin
-func FromStdin(gistFiles GistFiles) {
+func FromStdin(gistFiles GistFiles, fExt string) github.GistFile {
 	var stdOutBuff bytes.Buffer
 
 	_, err := io.Copy(&stdOutBuff, os.Stdin)
@@ -35,11 +35,11 @@ func FromStdin(gistFiles GistFiles) {
 	}
 
 	gistStr := stdOutBuff.String()
-	gistFiles["gistfile1.txt"] = github.GistFile{Content: &gistStr}
+	return github.GistFile{Content: &gistStr}
 }
 
 // Cats file content together into a gistFile
-func FromFiles(gistFiles GistFiles, files []string) {
+func FromFiles(gistFiles GistFiles, files []string, fExt string) github.GistFile {
 	var stdOutBuff bytes.Buffer
 
 	for _, fileName := range files {
@@ -55,11 +55,12 @@ func FromFiles(gistFiles GistFiles, files []string) {
 	}
 
 	gistStr := stdOutBuff.String()
-	gistFiles["gistfile1.txt"] = github.GistFile{Content: &gistStr}
+	return github.GistFile{Content: &gistStr}
 }
 
 func main() {
 	var public = flag.Bool("public", false, "makes the gist public")
+	var extension = flag.String("ext", "txt", "file extension to use")
 	flag.Parse()
 
 	apiToken := os.Getenv(tokenEnv)
@@ -75,10 +76,11 @@ func main() {
 
 	args := flag.Args()
 	gistFiles := make(GistFiles)
+	gistFilename := github.GistFilename(fmt.Sprintf("gistfile1.%s", *extension))
 	if len(args) == 0 {
-		FromStdin(gistFiles)
+		gistFiles[gistFilename] = FromStdin(gistFiles, *extension)
 	} else {
-		FromFiles(gistFiles, args)
+		gistFiles[gistFilename] = FromFiles(gistFiles, args, *extension)
 	}
 
 	gist := github.Gist{
