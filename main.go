@@ -90,7 +90,7 @@ func main() {
 
 	g, _, err := client.Gists.Create(&gist)
 	if err == nil {
-		fmt.Printf("New gist created: %s\n", *g.HTMLURL)
+		fmt.Println(*g.HTMLURL)
 		os.Exit(0)
 	} else {
 		fmt.Printf("Error creating new gist: %v\n", err)
