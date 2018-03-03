@@ -11,13 +11,14 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"flag"
 	"fmt"
 	"io"
 	"os"
 
-	"code.google.com/p/goauth2/oauth"
 	"github.com/google/go-github/github"
+	"golang.org/x/oauth2"
 )
 
 const tokenEnv = "GITHUB_API"
@@ -69,10 +70,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	t := &oauth.Transport{
-		Token: &oauth.Token{AccessToken: apiToken},
-	}
-	client := github.NewClient(t.Client())
+	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: apiToken})
+	client := github.NewClient(oauth2.NewClient(context.Background(), ts))
 
 	args := flag.Args()
 	gistFiles := make(GistFiles)

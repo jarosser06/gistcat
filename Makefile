@@ -4,17 +4,18 @@ all: build
 
 build:
 		@echo "Building..."
-		scripts/make.sh build
+		go build -v -o bin/gistcat
 
 test:
 		@echo "Running tests..."
-		scripts/make.sh test
+		go test
 
 clean:
 		@echo "Cleaning up..."
 		@rm -rf bin
-		@rm -rf packages
 
-install:
+install: build
 		@echo "Installing to ${INSTALLPRE}/bin"
-		@scripts/make.sh install
+		@cp bin/gistcat ${INSTALLPRE}/bin/
+
+.PHONY: build test clean install
